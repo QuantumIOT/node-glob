@@ -329,6 +329,7 @@ GlobSync.prototype._readdirError = function (f, er) {
       break
 
     case 'ENOENT': // not terribly unusual
+    case 'EPERM':
     case 'ELOOP':
     case 'ENAMETOOLONG':
     case 'UNKNOWN':
