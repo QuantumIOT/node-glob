@@ -250,7 +250,7 @@ GlobSync.prototype._readdirInGlobStar = function (abs) {
   try {
     lstat = fs.lstatSync(abs)
   } catch (er) {
-    if (er.code === 'ENOENT') {
+    if (er.code === 'ENOENT' || er.code === 'EPERM') {
       // lstat failed, doesn't exist
       return null
     }
@@ -447,7 +447,7 @@ GlobSync.prototype._stat = function (f) {
     try {
       lstat = fs.lstatSync(abs)
     } catch (er) {
-      if (er && (er.code === 'ENOENT' || er.code === 'ENOTDIR')) {
+      if (er && (er.code === 'ENOENT' || er.code === 'ENOTDIR' || er.code === 'EPERM')) {
         this.statCache[abs] = false
         return false
       }
