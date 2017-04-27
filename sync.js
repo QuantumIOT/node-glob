@@ -447,7 +447,7 @@ GlobSync.prototype._stat = function (f) {
     try {
       lstat = fs.lstatSync(abs)
     } catch (er) {
-      if (er && (er.code === 'ENOENT' || er.code === 'ENOTDIR' || er.code === 'EPERM')) {
+      if (er && (er.code === 'ENOENT' || er.code === 'EPERM' || er.code === 'ENOTDIR')) {
         this.statCache[abs] = false
         return false
       }

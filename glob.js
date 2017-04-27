@@ -506,7 +506,7 @@ Glob.prototype._readdirInGlobStar = function (abs, cb) {
     fs.lstat(abs, lstatcb)
 
   function lstatcb_ (er, lstat) {
-    if (er && er.code === 'ENOENT')
+    if (er && (er.code === 'ENOENT' || er.code === 'EPERM'))
       return cb()
 
     var isSym = lstat && lstat.isSymbolicLink()
@@ -598,6 +598,7 @@ Glob.prototype._readdirError = function (f, er, cb) {
       break
 
     case 'ENOENT': // not terribly unusual
+    case 'EPERM':
     case 'ELOOP':
     case 'ENAMETOOLONG':
     case 'UNKNOWN':
@@ -767,7 +768,7 @@ Glob.prototype._stat = function (f, cb) {
 }
 
 Glob.prototype._stat2 = function (f, abs, er, stat, cb) {
-  if (er && (er.code === 'ENOENT' || er.code === 'ENOTDIR')) {
+  if (er && (er.code === 'ENOENT' || er.code === 'EPERM' || er.code === 'ENOTDIR')) {
     this.statCache[abs] = false
     return cb()
   }
